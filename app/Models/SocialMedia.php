@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SocialMedia
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $link
@@ -34,4 +34,8 @@ class SocialMedia extends Model
 		'link',
 		'status'
 	];
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', 1);
+    }
 }

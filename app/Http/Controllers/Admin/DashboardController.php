@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -16,6 +15,10 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function index(){
+
+        return view('admin-views.index');
+    }
     public function dashboard(Request $request)
     {
         $params = [

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Vendor
- * 
+ *
  * @property int $id
  * @property string $f_name
  * @property string|null $l_name
@@ -69,4 +69,36 @@ class Vendor extends Model
 		'firebase_token',
 		'auth_token'
 	];
+    public function this_week_orders()
+    {
+        return $this->hasManyThrough(Order::class, Restaurant::class)->whereBetween('orders.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+    }
+
+    public function this_month_orders()
+    {
+        return $this->hasManyThrough(Order::class, Restaurant::class)->whereMonth('orders.created_at', date('m'))->whereYear('orders.created_at', date('Y'));
+    }
+
+    public function userinfo()
+    {
+        return $this->hasOne(UserInfo::class,'vendor_id', 'id');
+    }
+
+    public function orders()
+    {
+        return $this->hasManyThrough(Order::class, Restaurant::class);
+    }
+
+    public function restaurants()
+    {
+        return $this->hasMany(Restaurant::class);
+    }
+    public function withdrawrequests()
+    {
+        return $this->hasMany(WithdrawRequest::class);
+    }
+    public function wallet()
+    {
+        return $this->hasOne(RestaurantWallet::class);
+    }
 }

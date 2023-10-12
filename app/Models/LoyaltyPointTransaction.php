@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class LoyaltyPointTransaction
- * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $transaction_id
@@ -45,4 +45,13 @@ class LoyaltyPointTransaction extends Model
 		'reference',
 		'transaction_type'
 	];
+    /**
+     * Get the user that owns the LoyaltyPointTransaction
+     *
+     * @return \App\Models\User
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

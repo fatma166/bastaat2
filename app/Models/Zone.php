@@ -1,50 +1,51 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
+use App\Scopes\ZoneScope;
 
-/**
- * Class Zone
- * 
- * @property int $id
- * @property string $name
- * @property polygon|null $coordinates
- * @property bool $status
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property string|null $restaurant_wise_topic
- * @property string|null $customer_wise_topic
- * @property string|null $deliveryman_wise_topic
- * @property float|null $minimum_shipping_charge
- * @property float|null $per_km_shipping_charge
- *
- * @package App\Models
- */
 class Zone extends Model
 {
-	protected $table = 'zones';
+    use HasFactory;
+    use SpatialTrait;
 
-	protected $casts = [
-		'coordinates' => 'polygon',
-		'status' => 'bool',
-		'minimum_shipping_charge' => 'float',
-		'per_km_shipping_charge' => 'float'
-	];
+    protected $casts = [
+        'id'=>'integer',
+        'status'=>'integer',
+        'minimum_shipping_charge'=>'float',
+        'per_km_shipping_charge'=>'float'
+    ];
 
-	protected $fillable = [
-		'name',
-		'coordinates',
-		'status',
-		'restaurant_wise_topic',
-		'customer_wise_topic',
-		'deliveryman_wise_topic',
-		'minimum_shipping_charge',
-		'per_km_shipping_charge'
-	];
+    protected $spatialFields = [
+        'coordinates'
+    ];
+
+    public function restaurants()
+    {
+        return $this->hasMany(Restaurant::class);
+    }
+
+    public function deliverymen()
+    {
+        return $this->hasMany(DeliveryMan::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasManyThrough(Order::class, Restaurant::class);
+    }
+
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', 1);
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new ZoneScope);
+    }
 }

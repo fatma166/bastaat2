@@ -35,11 +35,42 @@ return [
     |
     */
 
+    /*'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+    ],*/
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
+        'vendor' => [
+            'driver' => 'session',
+            'provider' => 'vendors',
+        ],
+
+        'vendor_employee' => [
+            'driver' => 'session',
+            'provider' => 'vendor_employees',
+        ],
+
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
     ],
 
     /*
@@ -59,17 +90,39 @@ return [
     |
     */
 
+   /* 'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],*/
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
 
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+
+        'vendors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Vendor::class,
+        ],
+
+        'vendor_employees' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\VendorEmployee::class,
+        ],
+
+    ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-    ],
+
 
     /*
     |--------------------------------------------------------------------------

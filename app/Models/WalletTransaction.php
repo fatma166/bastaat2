@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class WalletTransaction
- * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $transaction_id
@@ -48,4 +48,8 @@ class WalletTransaction extends Model
 		'transaction_type',
 		'reference'
 	];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

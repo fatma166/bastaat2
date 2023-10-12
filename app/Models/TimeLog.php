@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TimeLog
- * 
+ *
  * @property int $id
  * @property int $user_id
  * @property Carbon $date
@@ -42,4 +42,8 @@ class TimeLog extends Model
 		'offline',
 		'working_hour'
 	];
+   /* public function deliveryman()
+    {
+        return $this->belongsTo(TimeLog::class, 'user_id', 'id');
+    }*/
 }

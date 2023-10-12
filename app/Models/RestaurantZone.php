@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class RestaurantZone
- * 
+ *
  * @property int $id
  * @property int $restaurant_id
  * @property int $zone_id
@@ -33,4 +33,5 @@ class RestaurantZone extends Model
 		'restaurant_id',
 		'zone_id'
 	];
+
 }

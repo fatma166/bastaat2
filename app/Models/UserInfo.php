@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserInfo
- * 
+ *
  * @property int $id
  * @property string|null $f_name
  * @property string|null $l_name
@@ -49,4 +49,23 @@ class UserInfo extends Model
 		'vendor_id',
 		'deliveryman_id'
 	];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
+    }
+
+    public function delivery_man()
+    {
+        return $this->belongsTo(DeliveryMan::class, 'deliveryman_id');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'admin_id');
+    }
 }

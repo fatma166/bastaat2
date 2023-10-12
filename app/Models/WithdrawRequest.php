@@ -6,12 +6,13 @@
 
 namespace App\Models;
 
+use App\Scopes\ZoneScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class WithdrawRequest
- * 
+ *
  * @property int $id
  * @property int $vendor_id
  * @property int $admin_id
@@ -41,4 +42,13 @@ class WithdrawRequest extends Model
 		'amount',
 		'approved'
 	];
+
+    public function vendor(){
+        return $this->belongsTo(Vendor::class);
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new ZoneScope);
+    }
 }

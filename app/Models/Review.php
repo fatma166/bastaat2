@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Review
- * 
+ *
  * @property int $id
  * @property int $food_id
  * @property int $user_id
@@ -46,4 +46,18 @@ class Review extends Model
 		'order_id',
 		'status'
 	];
+    public function food()
+    {
+        return $this->belongsTo(Food::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status',1);
+    }
 }

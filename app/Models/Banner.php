@@ -6,12 +6,13 @@
 
 namespace App\Models;
 
+use App\Scopes\ZoneScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Banner
- * 
+ *
  * @property int $id
  * @property string $title
  * @property string $type
@@ -41,4 +42,19 @@ class Banner extends Model
 		'data',
 		'zone_id'
 	];
+
+    public function zone()
+    {
+        return $this->belongsTo(Zone::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', 1);
+    }
+
+   /* protected static function booted()
+    {
+        static::addGlobalScope(new ZoneScope);
+    }*/
 }

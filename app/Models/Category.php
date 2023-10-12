@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Category
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $image
@@ -43,4 +43,30 @@ class Category extends Model
 		'status',
 		'priority'
 	];
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', 1);
+    }
+
+    public function childes()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+
+
+    /*protected static function booted()
+    {
+        static::addGlobalScope('translate', function (Builder $builder) {
+            $builder->with(['translations' => function ($query) {
+                return $query->where('locale', app()->getLocale());
+            }]);
+        });
+    }*/
 }

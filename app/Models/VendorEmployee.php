@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class VendorEmployee
- * 
+ *
  * @property int $id
  * @property string|null $f_name
  * @property string|null $l_name
@@ -64,4 +64,17 @@ class VendorEmployee extends Model
 		'firebase_token',
 		'auth_token'
 	];
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+    public function role(){
+        return $this->belongsTo(EmployeeRole::class,'employee_role_id');
+    }
 }

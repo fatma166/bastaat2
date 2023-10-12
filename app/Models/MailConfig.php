@@ -6,12 +6,13 @@
 
 namespace App\Models;
 
+use App\Scopes\RestaurantScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MailConfig
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $host
@@ -50,4 +51,16 @@ class MailConfig extends Model
 		'password',
 		'restaurant_id'
 	];
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
+
+    protected static function booted()
+    {
+        if(auth('vendor')->check())
+        {
+            static::addGlobalScope(new RestaurantScope);
+        }
+    }
 }

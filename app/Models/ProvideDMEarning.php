@@ -6,12 +6,13 @@
 
 namespace App\Models;
 
+use App\Scopes\ZoneScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ProvideDMEarning
- * 
+ *
  * @property int $id
  * @property int $delivery_man_id
  * @property float $amount
@@ -37,4 +38,14 @@ class ProvideDMEarning extends Model
 		'method',
 		'ref'
 	];
+
+   /* public function delivery_man()
+    {
+        return $this->belongsTo(DeliveryMan::class, 'delivery_man_id');
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new ZoneScope);
+    }*/
 }

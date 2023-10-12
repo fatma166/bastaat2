@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserNotification
- * 
+ *
  * @property int $id
  * @property string|null $data
  * @property bool $status
@@ -41,4 +41,13 @@ class UserNotification extends Model
 		'vendor_id',
 		'delivery_man_id'
 	];
+    public function getDataAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s',strtotime($value));
+    }
 }

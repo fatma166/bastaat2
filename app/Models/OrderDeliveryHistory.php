@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class OrderDeliveryHistory
- * 
+ *
  * @property int $id
  * @property int|null $order_id
  * @property int|null $delivery_man_id

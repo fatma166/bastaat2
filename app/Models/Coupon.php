@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Coupon
- * 
+ *
  * @property int $id
  * @property string|null $title
  * @property string|null $code
@@ -64,4 +64,8 @@ class Coupon extends Model
 		'data',
 		'total_uses'
 	];
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', 1);
+    }
 }

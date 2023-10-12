@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class RestaurantSchedule
- * 
+ *
  * @property int $id
  * @property int $restaurant_id
  * @property int $day
@@ -39,4 +39,8 @@ class RestaurantSchedule extends Model
 		'opening_time',
 		'closing_time'
 	];
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
 }

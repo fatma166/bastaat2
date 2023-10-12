@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Wishlist
- * 
+ *
  * @property int $id
  * @property int $user_id
  * @property int|null $food_id
@@ -36,4 +36,13 @@ class Wishlist extends Model
 		'food_id',
 		'restaurant_id'
 	];
+
+    public function food()
+    {
+        return $this->belongsTo(Food::class);
+    }
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
 }

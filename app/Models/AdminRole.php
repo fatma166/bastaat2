@@ -7,11 +7,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class AdminRole
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string|null $modules
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AdminRole extends Model
 {
+    use HasFactory;
 	protected $table = 'admin_roles';
 
 	protected $casts = [

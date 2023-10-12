@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class OrderDetail
- * 
+ *
  * @property int $id
  * @property int|null $food_id
  * @property int|null $order_id
@@ -61,4 +61,18 @@ class OrderDetail extends Model
 		'total_add_on_price',
 		'item_campaign_id'
 	];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+    public function vendor()
+    {
+        return $this->order->restaurant();
+    }
+    public function food()
+    {
+        return $this->belongsTo(Food::class,'food_id');
+    }
+
 }

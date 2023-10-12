@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Message
- * 
+ *
  * @property int $id
  * @property int|null $conversation_id
  * @property int|null $sender_id
@@ -40,4 +40,13 @@ class Message extends Model
 		'file',
 		'is_seen'
 	];
+    public function sender()
+    {
+        return $this->belongsTo(UserInfo::class, 'sender_id');
+    }
+
+    public function conversation()
+    {
+        return $this->belongsTo(Conversation::class);
+    }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
-use Gregwar\Captcha\CaptchaBuilder;
+
 use Illuminate\Support\Facades\Session;
 use App\CentralLogics\Helpers;
 
@@ -18,10 +18,8 @@ class LoginController extends Controller
 
     public function login()
     {
-        $custome_recaptcha = new CaptchaBuilder;
-        $custome_recaptcha->build();
-        Session::put('six_captcha', $custome_recaptcha->getPhrase());
-        return view('admin-views.auth.login', compact('custome_recaptcha'));
+
+        return view('admin-views.auth.login');
     }
 
     public function submit(Request $request)

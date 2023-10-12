@@ -6,12 +6,14 @@
 
 namespace App\Models;
 
+use App\Scopes\ZoneScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Restaurant
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $phone
@@ -99,6 +101,7 @@ class Restaurant extends Model
 		'closeing_time',
 		'free_delivery',
 		'status',
+        'compilation_id',
 		'vendor_id',
 		'rating',
 		'cover_photo',
@@ -122,4 +125,127 @@ class Restaurant extends Model
 		'minimum_shipping_charge',
 		'per_km_shipping_charge'
 	];
+    protected $appends = ['gst_status','gst_code'];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'gst'
+    ];
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+    public function foods()
+    {
+        return $this->hasMany(Food::class);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(RestaurantSchedule::class)->orderBy('opening_time');
+    }
+
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function discount()
+    {
+        return $this->hasOne(Discount::class);
+    }
+
+    public function zone()
+    {
+        return $this->belongsTo(Zone::class);
+    }
+
+
+
+    public function reviews()
+    {
+        return $this->hasManyThrough(Review::class, Food::class);
+    }
+
+   /* public function getScheduleOrderAttribute($value)
+    {
+        return (boolean)(\App\CentralLogics\Helpers::schedule_order()?$value:0);
+    }*/
+    public function getRatingAttribute($value)
+    {
+        $ratings = json_decode($value, true);
+        $rating5 = $ratings?$ratings[5]:0;
+        $rating4 = $ratings?$ratings[4]:0;
+        $rating3 = $ratings?$ratings[3]:0;
+        $rating2 = $ratings?$ratings[2]:0;
+        $rating1 = $ratings?$ratings[1]:0;
+        return [$rating5, $rating4, $rating3, $rating2, $rating1];
+    }
+
+    public function getGstStatusAttribute()
+    {
+        return (boolean)($this->gst?json_decode($this->gst, true)['status']:0);
+    }
+
+    public function getGstCodeAttribute()
+    {
+        return (string)($this->gst?json_decode($this->gst, true)['code']:'');
+    }
+
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    public function scopeOpened($query)
+    {
+        return $query->where('active', 1);
+    }
+
+    public function scopeWithOpen($query)
+    {
+        $query->selectRaw('*, IF(((select count(*) from `restaurant_schedule` where `restaurants`.`id` = `restaurant_schedule`.`restaurant_id` and `restaurant_schedule`.`day` = '.now()->dayOfWeek.' and `restaurant_schedule`.`opening_time` < "'.now()->format('H:i:s').'" and `restaurant_schedule`.`closing_time` >"'.now()->format('H:i:s').'") > 0), true, false) as open');
+    }
+    public function scopeWithLocation($query,$location){
+        $sqlDistance = DB::raw('( 111.045 * acos( cos( radians(' . $location['lat'] . ') ) * cos( radians( restaurants.latitude ) ) 
+* cos( radians( restaurants.longitude ) - radians(' . $location['lng']  . ') ) 
++ sin( radians(' . $location['lat']  . ') ) * sin( radians( restaurants.latitude ) ) ) )');
+        $allow=config('allow_distance');
+     return   $query->selectRaw("*,{$sqlDistance} AS distance")->havingRaw("distance <= 10");
+    }
+
+
+
+    public function scopeWeekday($query)
+    {
+        return $query->where('off_day', 'not like', "%".now()->dayOfWeek."%");
+    }
+
+   /* protected static function booted()
+    {
+        static::addGlobalScope(new ZoneScope);
+    }*/
+
+    public function scopeType($query, $type)
+    {
+        if($type == 'veg')
+        {
+            return $query->where('veg', true);
+        }
+        else if($type == 'non_veg')
+        {
+            return $query->where('non_veg', true);
+        }
+
+        return $query;
+
+    }
 }

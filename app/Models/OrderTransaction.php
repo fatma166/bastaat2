@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class OrderTransaction
- * 
+ *
  * @property int $id
  * @property int $vendor_id
  * @property int|null $delivery_man_id
@@ -67,4 +67,15 @@ class OrderTransaction extends Model
 		'dm_tips',
 		'delivery_fee_comission'
 	];
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function scopeNotRefunded($query)
+    {
+        return $query->where(function($query){
+            $query->whereNotIn('status', ['refunded_with_delivery_charge', 'refunded_without_delivery_charge'])->orWhereNull('status');
+        });
+    }
 }

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Discount
- * 
+ *
  * @property int $id
  * @property Carbon|null $start_date
  * @property Carbon|null $end_date
@@ -53,4 +53,14 @@ class Discount extends Model
 		'discount_type',
 		'restaurant_id'
 	];
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
+
+    public function scopeValidate($query)
+    {
+        $query->whereDate('start_date','<=',date('Y-m-d'))->whereDate('end_date','>=',date('Y-m-d'))->whereTime('start_time','<=',date('H:i:s'))->whereTime('end_time','>=',date('H:i:s'));
+    }
 }

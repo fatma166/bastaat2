@@ -6,12 +6,13 @@
 
 namespace App\Models;
 
+use App\Scopes\ZoneScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Notification
- * 
+ *
  * @property int $id
  * @property string|null $title
  * @property string|null $description
@@ -41,4 +42,35 @@ class Notification extends Model
 		'tergat',
 		'zone_id'
 	];
+
+    public function getDataAttribute()
+    {
+        return [
+            "title"=> $this->title,
+            "description"=> $this->description,
+            "order_id"=> "",
+            "image"=> $this->image,
+            "type"=> "order_status"
+        ];
+    }
+
+    public function zone()
+    {
+        return $this->belongsTo(Zone::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', 1);
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s',strtotime($value));
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new ZoneScope);
+    }
 }
