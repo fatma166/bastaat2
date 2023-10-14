@@ -6,20 +6,21 @@ use App\CentralLogics\CategoryLogic;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CategoryRequest;
+use App\Http\Requests\Api\OrderRequest;
 use App\Models\Category;
 use App\Modules\Core\HTTPResponseCodes;
 use App\Repositories\Api\CategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class OrderController extends Controller
 {
-    public function list_cats(Request $request)
+    public function make_order(OrderRequest $request)
     {
-
+exit;
 
         try {
-            $cat=new CategoryRepository();
+            $cat=new Repository();
             $categories = $cat->list_cats($request);
             return response()->json([
                 'status' => HTTPResponseCodes::Sucess['status'],

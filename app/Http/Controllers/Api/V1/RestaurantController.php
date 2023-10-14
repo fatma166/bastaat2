@@ -28,8 +28,10 @@ class RestaurantController extends Controller
             $location=[];
            if($request->filled('lati')&& $request->filled('lati'))
                 $location= array('lat' => $request['lati'], 'lng' => $request['longi']);
+
+
             $rest=new RestaurantRepository();
-            $restaurants = $rest->get_latest($zone_ids,$filter_data,$limit,$offset,$location);
+            $restaurants = $rest->get_restaurant($zone_ids,$filter_data,$limit,$offset,$location);
 
               if(count($restaurants)!=0)
             $restaurants['restaurants'] = Helper::restaurant_data_formatting($restaurants['restaurants'], true);
@@ -116,7 +118,7 @@ class RestaurantController extends Controller
     }
 
     public function get_latest(Request $request ,$filter_data="all"){
-
+exit;
         $limit= $request->limit;
 
         if((!$request->filled('zone_id')) && !empty($request['zone_id'])) {

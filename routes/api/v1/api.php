@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\V1\BannerController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\CompilationController;
+use App\Http\Controllers\Api\V1\FoodController;
 use App\Http\Controllers\Api\V1\RestaurantController;
 use App\Http\Controllers\Api\V1\ZoneController;
 
@@ -43,8 +45,10 @@ Route::namespace('Api\V1')->prefix('category')->group (function() {
 
 
     Route::get('/list', [CategoryController::class, 'list_cats']);
+    Route::get('/get-cat/{id?}', [CategoryController::class, 'get_category'])->name('get-cat');
 
 });
+
 Route::namespace('Api\V1')->prefix('restaurants')->group (function() {
 
 
@@ -56,8 +60,16 @@ Route::namespace('Api\V1')->prefix('restaurants')->group (function() {
 });
 
 Route::namespace('Api\V1')->prefix('compilations')->group (function() {
-
     Route::get('/list', [CompilationController::class, 'list'])->name('list-compilaions');
+});
+
+Route::namespace('Api\V1')->prefix('food')->group (function() {
+    Route::get('/list', [FoodController::class, 'get_food'])->name('list-food');
+    Route::get('/single-food', [FoodController::class, 'single_food'])->name('single-food');
+});
+Route::namespace('Api\V1')->prefix('order')->group (function() {
+    Route::get('/list', [orderController::class, ''])->name('list-food');
+    Route::get('/single-food', [FoodController::class, 'single_food'])->name('single-food');
 });
 /*get banners*/
 

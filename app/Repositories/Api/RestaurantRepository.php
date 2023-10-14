@@ -38,18 +38,18 @@ class RestaurantRepository implements RestaurantInterface
             //->orderBy('distance', 'desc')
            // ->orderBy('open', 'desc')
 
-            $paginator->paginate($limit, ['*'], 'page', $offset);
+          $paginator1=  $paginator->paginate($limit, ['*'], 'page', $offset);
 
-       // $query = DB::getQueryLog();
+           // $query = DB::getQueryLog();
 //print_r($query);exit;
-        if(count($paginator->items())==0)
-            return [];
+       // if(count($paginator->items())==0)
+         //   return [];
         /*$paginator->count();*/
         return [
-            'total_size' => $paginator->total(),
+            'total_size' => $paginator1->total(),
             'limit' => $limit,
             'offset' => $offset,
-            'restaurants' => $paginator->items()
+            'restaurants' => $paginator1->items()
         ];
     }
 
@@ -96,7 +96,7 @@ class RestaurantRepository implements RestaurantInterface
                 ->where('categories.status',1)
                 ->groupBy('categories')
                 ->get();
-             dd($category_ids->pluck('categories'));
+             //dd($category_ids->pluck('categories'));
             $restaurant = Helper::restaurant_data_formatting($restaurant);
             $restaurant['category_ids'] = array_map('intval', $category_ids->pluck('categories')->toArray());
 
@@ -106,6 +106,7 @@ class RestaurantRepository implements RestaurantInterface
 
     public function get_latest($zone_ids,$filter_data,$limit,$location)
     {
+
         // TODO: Implement get_latest() method.
         DB::enableQueryLog();
         $restaurants= Restaurant::

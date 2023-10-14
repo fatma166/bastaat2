@@ -4,7 +4,7 @@ namespace App\Interfaces\Api;
 
 use Illuminate\Http\Request;
 
-interface  CategoryInterface
+interface  CompilationInterface
 {
 
     public function list(Request $request) ;

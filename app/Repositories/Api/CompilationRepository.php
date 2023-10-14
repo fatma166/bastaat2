@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories\Api;
+use App\Interfaces\Api\CompilationInterface;
 use App\Models\Compilation;
 use Illuminate\Http\Request;
 
